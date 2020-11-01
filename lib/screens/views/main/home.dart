@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cc_bogota/components/details_view.dart';
+import 'package:cc_bogota/constants/enums.dart';
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/screens/views/main/details.dart';
 import 'package:cc_bogota/widgets/event_card.dart';
 import 'package:cc_bogota/constants/colors.dart';
@@ -10,13 +12,11 @@ import 'package:cc_bogota/models/event.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Main extends StatefulWidget {
-  final Function locationFunction;
-  final Function switchContent;
+  final CCState appState;
 
   const Main({
     Key key,
-    @required this.locationFunction,
-    @required this.switchContent,
+    @required this.appState,
   }) : super(key: key);
 
   @override
@@ -112,25 +112,8 @@ class _MainState extends State<Main> {
                         ),
                       ),
                     ),
-                    onTap: () {
-                      widget.switchContent.call(
-                          CCDetails(
-                            content: DetailsView(
-                              text:
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
-                              onBackPressed: () {
-                                widget.switchContent.call(
-                                  Main(
-                                      locationFunction: widget.locationFunction,
-                                      switchContent: widget.switchContent),
-                                );
-                              },
-                            ),
-                            imageUrl:
-                                "https://www.sanic.org/2017/images/vision.jpg",
-                          ),
-                          title: "NUESTRA VISIÓN");
-                    },
+                    onTap: () => widget.appState
+                        .updateContentView(ContentViews.our_vision),
                   ),
                 ),
                 SizedBox(
@@ -155,25 +138,8 @@ class _MainState extends State<Main> {
                         ),
                       ),
                     ),
-                    onTap: () {
-                      widget.switchContent.call(
-                          CCDetails(
-                            content: DetailsView(
-                              text:
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
-                              onBackPressed: () {
-                                widget.switchContent.call(
-                                  Main(
-                                      locationFunction: widget.locationFunction,
-                                      switchContent: widget.switchContent),
-                                );
-                              },
-                            ),
-                            imageUrl:
-                                "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/unnamed.jpg?alt=media&token=484f47f7-7f89-45b7-8355-79ec3a02a2ac",
-                          ),
-                          title: "NUESTRA HISTORIA");
-                    },
+                    onTap: () => widget.appState
+                        .updateContentView(ContentViews.our_history),
                   ),
                 ),
               ],
@@ -331,7 +297,8 @@ class _MainState extends State<Main> {
                   'assets/images/cc_location.png',
                   height: 42.0,
                 ),
-                onTap: widget.locationFunction,
+                onTap: () =>
+                    widget.appState.updateContentView(ContentViews.location),
               ),
             ],
           ),

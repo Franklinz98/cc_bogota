@@ -1,3 +1,5 @@
+import 'package:cc_bogota/constants/enums.dart';
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/components/ministry_banner.dart';
 import 'package:cc_bogota/components/details_view.dart';
@@ -8,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Ministries extends StatelessWidget {
-  final Function switchContent;
+  final CCState appState;
 
   const Ministries({
     Key key,
-    @required this.switchContent,
+    @required this.appState,
   }) : super(key: key);
 
   @override
@@ -34,7 +36,8 @@ class Ministries extends StatelessWidget {
                     title: "Mujeres Determinantes",
                     url:
                         "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Fdeterminantes.png?alt=media&token=217bfbd9-f830-4b5c-b8aa-0bdc6ab9b903",
-                    switchContent: this.switchContent,
+                    onTap: () =>
+                        appState.updateContentView(ContentViews.womens),
                   ),
                 ),
                 SizedBox(
@@ -45,7 +48,8 @@ class Ministries extends StatelessWidget {
                     title: "Emprendedores de Reino",
                     url:
                         "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Femprendedores.png?alt=media&token=c6760886-6dc6-44e7-9390-0ece59188451",
-                    switchContent: this.switchContent,
+                    onTap: () =>
+                        appState.updateContentView(ContentViews.entrepenours),
                   ),
                 ),
               ],
@@ -63,7 +67,7 @@ class Ministries extends StatelessWidget {
                     title: "R21",
                     url:
                         "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Fr21.png?alt=media&token=8bbc059b-13fa-4410-895e-77c81a8a4964",
-                    switchContent: this.switchContent,
+                    onTap: () => appState.updateContentView(ContentViews.r21),
                   ),
                 ),
                 SizedBox(
@@ -74,7 +78,7 @@ class Ministries extends StatelessWidget {
                     title: "IgleKids",
                     url:
                         "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Figlekids.png?alt=media&token=a5f80e01-0f6a-4554-ade9-38c40cbb3db6",
-                    switchContent: this.switchContent,
+                    onTap: () => appState.updateContentView(ContentViews.kids),
                   ),
                 ),
               ],
