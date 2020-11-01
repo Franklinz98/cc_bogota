@@ -1,6 +1,4 @@
 import 'package:cc_bogota/backend/authentication.dart';
-import 'package:cc_bogota/backend/requets.dart';
-import 'package:cc_bogota/models/cc_user.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/widgets/ccfield.dart';
 import 'package:cc_bogota/constants/colors.dart';

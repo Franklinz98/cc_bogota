@@ -1,10 +1,6 @@
-import 'package:cc_bogota/backend/authentication.dart';
-import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/screens/views/authentication/login.dart';
 import 'package:cc_bogota/screens/views/authentication/recover_password.dart';
-import 'package:cc_bogota/screens/views/authentication/signup.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationRoute extends StatefulWidget {
@@ -26,8 +22,6 @@ class _RouteState extends State<AuthenticationRoute> {
         });
       },
     );
-    // TODO DELETE
-    Firebase.initializeApp();
     super.initState();
   }
 

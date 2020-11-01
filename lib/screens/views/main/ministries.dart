@@ -1,13 +1,7 @@
 import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
-import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/components/ministry_banner.dart';
-import 'package:cc_bogota/components/details_view.dart';
-import 'package:cc_bogota/constants/colors.dart';
-import 'package:cc_bogota/screens/routes/main.dart';
-import 'package:cc_bogota/screens/views/main/details.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Ministries extends StatelessWidget {
   final CCState appState;

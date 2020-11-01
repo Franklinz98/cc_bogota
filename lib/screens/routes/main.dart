@@ -1,7 +1,6 @@
 import 'package:cc_bogota/backend/authentication.dart';
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/details_view.dart';
-import 'package:cc_bogota/models/cc_user.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/screens/routes/admin.dart';
 import 'package:cc_bogota/screens/routes/authentication.dart';
@@ -200,6 +199,7 @@ class _RouteState extends State<MainRoute> {
       case ContentScreen.pfi:
         setTitle(title: "INFORME SEMANAL");
         return PFIForm(
+          appState: _appState,
           onReportSent: () {
             _appState.updateContentScreen(ContentScreen.home);
           },

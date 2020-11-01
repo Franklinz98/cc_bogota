@@ -1,13 +1,15 @@
 import 'package:cc_bogota/constants/colors.dart';
-import 'package:cc_bogota/models/school_request.dart';
-import 'package:cc_bogota/widgets/school_dialog.dart';
+import 'package:cc_bogota/models/pfi_form.dart';
+import 'package:cc_bogota/widgets/pfi_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SchoolTile extends StatelessWidget {
-  final SchoolRequest request;
+class PfiTile extends StatelessWidget {
+  final PfiForm form;
+  final String id;
 
-  const SchoolTile({Key key, @required this.request}) : super(key: key);
+  const PfiTile({Key key, @required this.id, @required this.form})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +23,11 @@ class SchoolTile extends StatelessWidget {
         ),
         child: ListTile(
           leading: Icon(
-            Icons.person_outline_rounded,
+            Icons.drive_file_rename_outline,
             color: Colors.white,
           ),
           title: Text(
-            request.name,
+            this.id,
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.w500,
               fontSize: 14,
@@ -35,7 +37,7 @@ class SchoolTile extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => SchoolDialog(request: request),
+              builder: (context) => PfiDialog(form: form),
             );
           },
         ),

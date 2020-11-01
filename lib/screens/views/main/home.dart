@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cc_bogota/components/details_view.dart';
 import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
-import 'package:cc_bogota/screens/views/main/details.dart';
 import 'package:cc_bogota/widgets/event_card.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:flutter/material.dart';

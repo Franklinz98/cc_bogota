@@ -64,8 +64,8 @@ class _WidgetState extends State<RecoverP> {
                   const EdgeInsets.symmetric(horizontal: 24.0, vertical: 6.0),
               child: CCField(
                 labelText: "Correo electrónico",
-                validator: null,
-                controller: null,
+                validator: _validator,
+                controller: email,
                 inputType: TextInputType.emailAddress,
               ),
             ),

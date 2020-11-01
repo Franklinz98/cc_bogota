@@ -26,7 +26,6 @@ class _FormCState extends State<FormC> {
   TextEditingController amigo3Controller;
   TextEditingController direccion3Controller;
   TextEditingController telefono3Controller;
-  Function _validator;
   final List<String> categories = List();
 
   @override

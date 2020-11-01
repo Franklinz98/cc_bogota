@@ -1,5 +1,3 @@
-import 'package:cc_bogota/backend/authentication.dart';
-import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/gradient_image.dart';
 import 'package:cc_bogota/components/pfi_a.dart';
 import 'package:cc_bogota/components/pfi_b.dart';
@@ -7,10 +5,15 @@ import 'package:cc_bogota/components/pfi_c.dart';
 import 'package:cc_bogota/constants/enums.dart';
 import 'package:flutter/material.dart';
 
+import '../../../backend/requets.dart';
+import '../../../provider/cc_state.dart';
+
 class PFIForm extends StatefulWidget {
   final Function onReportSent;
+  final CCState appState;
 
-  PFIForm({Key key, @required this.onReportSent}) : super(key: key);
+  PFIForm({Key key, @required this.appState, @required this.onReportSent})
+      : super(key: key);
 
   @override
   _PFIFormState createState() => _PFIFormState();
@@ -51,11 +54,9 @@ class _PFIFormState extends State<PFIForm> {
       formKey: widget._formKeyB,
       onFinish: (Map<String, dynamic> map) {
         widget.form.addAll(map);
-        //TODO token from provider
-        /* signIn('ccporelmundo20@gmail.com', 'qwerty123')
-            .then((token) => sentReport(widget.form, token).then((value) {
-                  widget.onReportSent.call();
-                })); */
+        sentReport(widget.form, widget.appState.authToken).then((value) {
+          widget.onReportSent.call();
+        });
       },
     );
   }

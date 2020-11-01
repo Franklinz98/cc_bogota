@@ -4,6 +4,8 @@ import 'package:cc_bogota/screens/views/admin/school.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../views/admin/pfi.dart';
+
 class AdminRoute extends StatefulWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -79,6 +81,9 @@ class _RouteState extends State<AdminRoute> {
 
   void _updateViews() {
     switch (_currentIndex) {
+      case 0:
+        _content = PfiList();
+        break;
       case 1:
         _content = RequestList();
         break;

@@ -1,4 +1,3 @@
-import 'package:cc_bogota/backend/authentication.dart';
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/school_request.dart';
@@ -55,6 +54,7 @@ class _WidgetState extends State<SchoolReg> {
             ),
             CCField(
               labelText: "Nombre",
+              validator: _validator,
               controller: nameController,
             ),
             SizedBox(
@@ -65,6 +65,7 @@ class _WidgetState extends State<SchoolReg> {
                 Expanded(
                   child: CCField(
                     labelText: "Correo Electrónico",
+                    validator: _validator,
                     controller: emailController,
                     inputType: TextInputType.emailAddress,
                   ),
@@ -75,6 +76,7 @@ class _WidgetState extends State<SchoolReg> {
                 Expanded(
                   child: CCField(
                     labelText: "Teléfono",
+                    validator: _validator,
                     controller: phoneController,
                     inputType: TextInputType.phone,
                   ),
