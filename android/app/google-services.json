@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1091250234798",
+    "firebase_url": "https://cc-porelmundo.firebaseio.com",
+    "project_id": "cc-porelmundo",
+    "storage_bucket": "cc-porelmundo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091250234798:android:76277fa23e3c358dfad43f",
+        "android_client_info": {
+          "package_name": "com.ccglobal.bogota"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091250234798-plcgd7rj7hfm53aj3ft2h5tog48b1vob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzbq2GIcefbCd4dDPb6Zmlw6PIVqixcJE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091250234798-plcgd7rj7hfm53aj3ft2h5tog48b1vob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
