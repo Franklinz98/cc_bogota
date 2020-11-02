@@ -5,6 +5,28 @@ import 'package:http/http.dart' as http;
 
 String baseUrl = 'ccbapp-api.herokuapp.com';
 
+Future<bool> createAccount(String email, String token) async {
+  var uri = Uri.https(baseUrl, '/users');
+  final response = await http.post(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: "Bearer " + token,
+    },
+    body: json.encode(
+      {
+        'email': email,
+      },
+    ),
+  );
+  if (response.statusCode == 200) {
+    return true;
+  } else if (response.statusCode == 409) {
+    return false;
+  }
+  return null;
+}
+
 // Get user clearance level
 Future<String> getClearance(String uid, String token) async {
   var uri = Uri.https(baseUrl, '/users/$uid');
@@ -93,4 +115,21 @@ Future<bool> sentSchoolRequest(SchoolRequest request, String token) async {
   } else {
     return false;
   }
+}
+
+Future<List> getDocuments(String type, DateTime dateTime, String token) async {
+  var uri =
+      Uri.https(baseUrl, '/documents/$type/${dateTime.year}/${dateTime.month}');
+  final response = await http.get(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: "Bearer " + token,
+    },
+  );
+  if (response.statusCode == 200) {
+    var data = json.decode(response.body);
+    return data;
+  }
+  return null;
 }

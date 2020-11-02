@@ -1,12 +1,15 @@
+import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/pfi_tile.dart';
 import 'package:cc_bogota/components/school_tile.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/pfi_form.dart';
 import 'package:cc_bogota/models/school_request.dart';
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class PfiList extends StatefulWidget {
   @override
@@ -15,11 +18,13 @@ class PfiList extends StatefulWidget {
 
 class _WidgetState extends State<PfiList> {
   DateTime _dateTime;
+  CCState appState;
 
   @override
   void initState() {
     super.initState();
     _dateTime = DateTime.now();
+    appState = Provider.of<CCState>(context, listen: false);
   }
 
   @override
@@ -67,9 +72,29 @@ class _WidgetState extends State<PfiList> {
               }, currentTime: _dateTime, locale: LocaleType.es);
             },
           ),
-          PfiTile(
-            id: '1245_011450',
-            form: _form(),
+          Expanded(
+            child: FutureBuilder<List>(
+              future: getDocuments('PFI', _dateTime,
+                  appState.authToken),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    List data = snapshot.data;
+                    return ListView.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        PfiForm form = PfiForm(data: data[index]);
+                        return PfiTile(id: form.getData('codigo'), form: form);
+                      },
+                      itemCount: data.length,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                }
+                // By default, show a loading spinner.
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ],
       ),

@@ -18,6 +18,7 @@ class _WidgetState extends State<CredentialsManagement> {
   TextEditingController email;
   Function _validator;
   GlobalKey<FormState> formKey = GlobalKey();
+  CCState appState;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _WidgetState extends State<CredentialsManagement> {
       }
       return null;
     };
+    appState = Provider.of<CCState>(context, listen: false);
   }
 
   @override
@@ -40,7 +42,6 @@ class _WidgetState extends State<CredentialsManagement> {
         key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Operación a realizar:',
@@ -158,14 +159,27 @@ class _WidgetState extends State<CredentialsManagement> {
                   if (formKey.currentState.validate()) {
                     switch (_operation) {
                       case CredentialOp.signUp:
-                        // TODO
+                        createAccount(email.text, appState.authToken)
+                            .then((value) {
+                          switch (value) {
+                            case true:
+                              Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text('Cuenta creada.')));
+                              break;
+                            case false:
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'El correo ya existe en la base de datos.')));
+                              break;
+                            default:
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                  content: Text(
+                                      'Hubo un error, intentalo de nuevo.')));
+                          }
+                        });
                         break;
                       case CredentialOp.grantAdmin:
-                        addStaff(
-                                email.text,
-                                'admins',
-                                Provider.of<CCState>(context, listen: false)
-                                    .authToken)
+                        addStaff(email.text, 'admins', appState.authToken)
                             .then((value) {
                           if (value) {
                             Scaffold.of(context).showSnackBar(SnackBar(
@@ -179,11 +193,7 @@ class _WidgetState extends State<CredentialsManagement> {
                         });
                         break;
                       case CredentialOp.grantLeader:
-                        addStaff(
-                                email.text,
-                                'leaders',
-                                Provider.of<CCState>(context, listen: false)
-                                    .authToken)
+                        addStaff(email.text, 'leaders', appState.authToken)
                             .then((value) {
                           if (value) {
                             Scaffold.of(context).showSnackBar(SnackBar(
@@ -198,10 +208,7 @@ class _WidgetState extends State<CredentialsManagement> {
                         break;
                       case CredentialOp.removeCredentials:
                         removeCredentials(
-                                email.text,
-                                'admins',
-                                Provider.of<CCState>(context, listen: false)
-                                    .authToken)
+                                email.text, 'admins', appState.authToken)
                             .then((value) {
                           if (value) {
                             Scaffold.of(context).showSnackBar(SnackBar(
@@ -209,10 +216,7 @@ class _WidgetState extends State<CredentialsManagement> {
                                     Text('Credenciales de líder eliminadas.')));
                           } else {
                             removeCredentials(
-                                    email.text,
-                                    'leaders',
-                                    Provider.of<CCState>(context, listen: false)
-                                        .authToken)
+                                    email.text, 'leaders', appState.authToken)
                                 .then((value) {
                               if (value) {
                                 Scaffold.of(context).showSnackBar(SnackBar(

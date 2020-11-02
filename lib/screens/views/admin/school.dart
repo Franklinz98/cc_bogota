@@ -1,10 +1,13 @@
+import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/school_tile.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/school_request.dart';
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class RequestList extends StatefulWidget {
   @override
@@ -13,11 +16,13 @@ class RequestList extends StatefulWidget {
 
 class _WidgetState extends State<RequestList> {
   DateTime _dateTime;
+  CCState appState;
 
   @override
   void initState() {
     super.initState();
     _dateTime = DateTime.now();
+    appState = Provider.of<CCState>(context, listen: false);
   }
 
   @override
@@ -65,11 +70,32 @@ class _WidgetState extends State<RequestList> {
               }, currentTime: _dateTime, locale: LocaleType.es);
             },
           ),
-          SchoolTile(
-            request: SchoolRequest(
-                name: 'Nombre Test',
-                email: 'test@user.com',
-                phone: '3215694154'),
+          Expanded(
+            child: FutureBuilder<List>(
+              future: getDocuments('Escuela', _dateTime,
+                  appState.authToken),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    List data = snapshot.data;
+                    return ListView.builder(
+                      itemBuilder: (BuildContext context, int index) {
+                        SchoolRequest request =
+                            SchoolRequest.fromJson(data[index]);
+                        return SchoolTile(
+                          request: request,
+                        );
+                      },
+                      itemCount: data.length,
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("${snapshot.error}");
+                  }
+                }
+                // By default, show a loading spinner.
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ],
       ),
