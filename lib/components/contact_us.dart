@@ -1,19 +1,26 @@
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cc_bogota/backend/requets.dart';
 
 class ContactUs extends StatelessWidget {
-  final String text;
+  String text;
 
-  const ContactUs({
+  ContactUs({
     Key key,
-    @required this.text,
   }) : super(key: key);
+
+  void updateText(String text) {
+    this.text = text;
+  }
 
   @override
   Widget build(BuildContext context) {
+    CCState appState = Provider.of<CCState>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -43,7 +50,8 @@ class ContactUs extends StatelessWidget {
                       color: Colors.white),
                 ),
                 onPressed: () async {
-                  const url = "https://wa.me/573112148873";
+                  final url =
+                      "https://wa.me/57${appState.redirect['whatsapp']}";
                   if (await canLaunch(url)) launch(url);
                 },
               )
@@ -68,7 +76,7 @@ class ContactUs extends StatelessWidget {
                       color: Colors.white),
                 ),
                 onPressed: () async {
-                  const url = "mailto:bogotacentrocristiano@gmail.com";
+                  final url = "mailto:${appState.redirect['email']}";
                   if (await canLaunch(url)) launch(url);
                 },
               )

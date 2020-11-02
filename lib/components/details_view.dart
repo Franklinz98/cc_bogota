@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../widgets/button.dart';
 
 class DetailsView extends StatelessWidget {
-  final String text;
+  String text;
   final Function onBackPressed;
 
-  const DetailsView(
-      {Key key,
-      @required this.text,
-      @required this.onBackPressed})
-      : super(key: key);
+  DetailsView({Key key, @required this.onBackPressed}) : super(key: key);
+
+  void updateText(String text) {
+    this.text = text;
+  }
 
   @override
   Widget build(BuildContext context) {

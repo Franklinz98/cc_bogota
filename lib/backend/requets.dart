@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cc_bogota/models/school_request.dart';
+import 'package:cc_bogota/models/view.dart';
 import 'package:http/http.dart' as http;
 
 String baseUrl = 'ccbapp-api.herokuapp.com';
@@ -130,6 +131,21 @@ Future<List> getDocuments(String type, DateTime dateTime, String token) async {
   if (response.statusCode == 200) {
     var data = json.decode(response.body);
     return data;
+  }
+  return null;
+}
+
+Future<ViewData> getViewData(String viewName) async {
+  var uri = Uri.https(baseUrl, '/views/$viewName');
+  final response = await http.get(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  if (response.statusCode == 200) {
+    var data = json.decode(response.body);
+    return ViewData.fromJson(data);
   }
   return null;
 }

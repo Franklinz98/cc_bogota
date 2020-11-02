@@ -1,6 +1,8 @@
 import 'package:cc_bogota/components/ministry_banner.dart';
+import 'package:cc_bogota/models/view.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
+import 'package:cc_bogota/backend/requets.dart';
 
 class Multimedia extends StatelessWidget {
   final CCState appState;
@@ -21,22 +23,50 @@ class Multimedia extends StatelessWidget {
             height: 56.0,
           ),
           Expanded(
-            child: MinistryBanner(
-              title: "Fotos",
-              url:
-                  "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Fdeterminantes.png?alt=media&token=217bfbd9-f830-4b5c-b8aa-0bdc6ab9b903",
-              onTap: (){},
+            child: FutureBuilder<ViewData>(
+              future: getViewData('pictures'),
+              builder:
+                  (BuildContext context, AsyncSnapshot<ViewData> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return MinistryBanner(
+                      title: "Fotos",
+                      url: snapshot.data.cover,
+                      onTap: () {},
+                    );
+                  } else if (snapshot.hasError) {
+                    Text('error');
+                  }
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           ),
           SizedBox(
             height: 24.0,
           ),
           Expanded(
-            child: MinistryBanner(
-              title: "Videos",
-              url:
-                  "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Fr21.png?alt=media&token=8bbc059b-13fa-4410-895e-77c81a8a4964",
-              onTap: (){},
+            child: FutureBuilder<ViewData>(
+              future: getViewData('video'),
+              builder:
+                  (BuildContext context, AsyncSnapshot<ViewData> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return MinistryBanner(
+                      title: "Videos",
+                      url: snapshot.data.cover,
+                      onTap: () {},
+                    );
+                  } else if (snapshot.hasError) {
+                    Text('error');
+                  }
+                }
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           ),
         ],

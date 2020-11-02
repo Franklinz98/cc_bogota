@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/enums.dart';
+import 'package:cc_bogota/models/view.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/event_card.dart';
 import 'package:cc_bogota/constants/colors.dart';
@@ -33,14 +35,6 @@ class _MainState extends State<Main> {
 
   String _darkMapStyle; */
 
-  final List<String> imageList = [
-    "https://images.pexels.com/photos/1666816/pexels-photo-1666816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.pexels.com/photos/976866/pexels-photo-976866.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.pexels.com/photos/2351719/pexels-photo-2351719.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.pexels.com/photos/2014775/pexels-photo-2014775.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.pexels.com/photos/2147029/pexels-photo-2147029.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -51,28 +45,48 @@ class _MainState extends State<Main> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        GFCarousel(
-          items: imageList.map(
-            (url) {
-              return Container(
-                color: AppColors.shark,
-                child: CachedNetworkImage(
-                  placeholder: (context, url) =>
-                      Center(child: CircularProgressIndicator()),
-                  imageUrl: url,
-                  fit: BoxFit.cover,
-                  width: 1000.0,
-                ),
-              );
-            },
-          ).toList(),
-          viewportFraction: 1.0,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 6),
-          pagination: true,
-          passiveIndicator: Color(0xff707070),
-          activeIndicator: Colors.white,
-          pagerSize: 6.0,
+        FutureBuilder<ViewData>(
+          future: getViewData('home'),
+          builder: (BuildContext context, AsyncSnapshot<ViewData> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                final List imageList = snapshot.data.carroussel;
+                return GFCarousel(
+                  items: imageList.map(
+                    (url) {
+                      return Container(
+                        color: AppColors.shark,
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) =>
+                              Center(child: CircularProgressIndicator()),
+                          imageUrl: url,
+                          fit: BoxFit.cover,
+                          width: 1000.0,
+                        ),
+                      );
+                    },
+                  ).toList(),
+                  viewportFraction: 1.0,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 6),
+                  pagination: true,
+                  passiveIndicator: Color(0xff707070),
+                  activeIndicator: Colors.white,
+                  pagerSize: 6.0,
+                  height: 220.0,
+                );
+              } else if (snapshot.hasError) {
+                Text('error');
+              }
+            }
+            return SizedBox(
+              width: 1000,
+              height: 220,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.all(12.0),
@@ -92,52 +106,84 @@ class _MainState extends State<Main> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Expanded(
-                  child: GestureDetector(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.shark,
-                        borderRadius: BorderRadius.circular(8.00),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              Center(child: CircularProgressIndicator()),
-                          imageUrl:
-                              "https://www.sanic.org/2017/images/vision.jpg",
-                          fit: BoxFit.cover,
-                          width: 1000.0,
-                        ),
-                      ),
-                    ),
-                    onTap: () => widget.appState
-                        .updateContentView(ContentViews.our_vision),
+                  child: FutureBuilder<ViewData>(
+                    future: getViewData('aboutUs'),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<ViewData> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return GestureDetector(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.shark,
+                                  borderRadius: BorderRadius.circular(8.00),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator()),
+                                    imageUrl: snapshot.data.cover,
+                                    fit: BoxFit.cover,
+                                    width: 1000.0,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                widget.appState.updateViewdata(snapshot.data);
+                                widget.appState
+                                    .updateContentView(ContentViews.our_vision);
+                              });
+                        } else if (snapshot.hasError) {
+                          Text('error');
+                        }
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(
                   width: 12.0,
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.shark,
-                        borderRadius: BorderRadius.circular(8.00),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: CachedNetworkImage(
-                          placeholder: (context, url) =>
-                              Center(child: CircularProgressIndicator()),
-                          imageUrl:
-                              "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/unnamed.jpg?alt=media&token=484f47f7-7f89-45b7-8355-79ec3a02a2ac",
-                          fit: BoxFit.cover,
-                          width: 1000.0,
-                        ),
-                      ),
-                    ),
-                    onTap: () => widget.appState
-                        .updateContentView(ContentViews.our_history),
+                  child: FutureBuilder<ViewData>(
+                    future: getViewData('history'),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<ViewData> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return GestureDetector(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.shark,
+                                  borderRadius: BorderRadius.circular(8.00),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: CachedNetworkImage(
+                                    placeholder: (context, url) => Center(
+                                        child: CircularProgressIndicator()),
+                                    imageUrl: snapshot.data.cover,
+                                    fit: BoxFit.cover,
+                                    width: 1000.0,
+                                  ),
+                                ),
+                              ),
+                              onTap: () {
+                                widget.appState.updateViewdata(snapshot.data);
+                                widget.appState.updateContentView(
+                                    ContentViews.our_history);
+                              });
+                        } else if (snapshot.hasError) {
+                          Text('error');
+                        }
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -226,7 +272,7 @@ class _MainState extends State<Main> {
                   height: 42.0,
                 ),
                 onTap: () async {
-                  const url = "https://www.facebook.com/CCIBogota";
+                  final url = widget.appState.redirect['facebook'];
                   if (await canLaunch(url))
                     launch(url);
                   else
@@ -243,8 +289,8 @@ class _MainState extends State<Main> {
                   height: 42.0,
                 ),
                 onTap: () async {
-                  const url =
-                      "https://www.instagram.com/centrocristianobogota/";
+                  final url =
+                      widget.appState.redirect['instagram'];
                   if (await canLaunch(url))
                     launch(url);
                   else
@@ -261,8 +307,8 @@ class _MainState extends State<Main> {
                   height: 42.0,
                 ),
                 onTap: () async {
-                  const url =
-                      "https://www.youtube.com/channel/UCAUc8XoldDkTGGxH7huK9RA";
+                  final url =
+                      widget.appState.redirect['youtube'];
                   if (await canLaunch(url))
                     launch(url);
                   else
@@ -279,7 +325,7 @@ class _MainState extends State<Main> {
                   height: 42.0,
                 ),
                 onTap: () async {
-                  const url = "http://centrocristianobogota2819.epizy.com/?i=1";
+                  final url = widget.appState.redirect['website'];
                   if (await canLaunch(url))
                     launch(url);
                   else

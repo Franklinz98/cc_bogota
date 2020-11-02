@@ -1,6 +1,7 @@
 import 'package:cc_bogota/backend/authentication.dart';
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/details_view.dart';
+import 'package:cc_bogota/models/view.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/screens/routes/admin.dart';
 import 'package:cc_bogota/screens/routes/authentication.dart';
@@ -49,6 +50,11 @@ class _RouteState extends State<MainRoute> {
       }
     });
     initializeDateFormatting('es_CO', null);
+    getViewData('redirect').then(
+      (value) => Provider.of<CCState>(context, listen: false).updateRedirect(
+        value.redirect,
+      ),
+    );
     // _contentScreen = ContentScreen.home;
     _adminFunction = () {
       if (Provider.of<CCState>(context, listen: false).userClearance ==
@@ -198,45 +204,45 @@ class _RouteState extends State<MainRoute> {
         break;
       case ContentScreen.pfi:
         setTitle(title: "INFORME SEMANAL");
-        return PFIForm(
-          appState: _appState,
-          onReportSent: () {
-            _appState.updateContentScreen(ContentScreen.home);
-          },
+        return getFutureBuilder(
+          'pfi',
+          PFIForm(
+            appState: _appState,
+            onReportSent: () {
+              _appState.updateContentScreen(ContentScreen.home);
+            },
+          ),
         );
         break;
       case ContentScreen.donations:
         setTitle(title: "SIEMBRA EN EL MINISTERIO");
-        return CCDetails(
-            content: DonationDetails(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
-            ),
-            imageUrl:
-                "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/headers%2Fdonations.png?alt=media&token=4ea789f3-dc2a-4c0b-b04a-efaf6bcf8556");
+        return getFutureBuilder('donations',
+            CCDetails(content: DonationDetails(), appState: _appState));
+
         break;
       case ContentScreen.school:
         setTitle(title: "INSCRIPCIÓN");
-        return CCDetails(
-          content: SchoolReg(
-            onFinish: () {
-              _appState.updateContentScreen(ContentScreen.home);
-            },
+        return getFutureBuilder(
+          'school',
+          CCDetails(
+            content: SchoolReg(
+              onFinish: () {
+                _appState.updateContentScreen(ContentScreen.home);
+              },
+            ),
+            appState: _appState,
           ),
-          imageUrl:
-              "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/headers%2Fdonations.png?alt=media&token=4ea789f3-dc2a-4c0b-b04a-efaf6bcf8556",
         );
         break;
       case ContentScreen.contact:
         setTitle(title: "CONTACTANOS");
-        return CCDetails(
-            content: ContactUs(
-              text:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
-            ),
-            imageUrl:
-                "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/headers%2Fcontact_us.png?alt=media&token=b2060697-0edd-427c-9699-433cec13feb2");
-        break;
+        return getFutureBuilder(
+          'contact',
+          CCDetails(
+            content: ContactUs(),
+            appState: _appState,
+          ),
+        );
 
       default:
         return getView(_appState.view);
@@ -249,27 +255,22 @@ class _RouteState extends State<MainRoute> {
         setTitle(title: "NUESTRA VISIÓN");
         return CCDetails(
           content: DetailsView(
-            text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
             onBackPressed: () {
               _appState.updateContentScreen(ContentScreen.home);
             },
           ),
-          imageUrl: "https://www.sanic.org/2017/images/vision.jpg",
+          appState: _appState,
         );
         break;
       case ContentViews.our_history:
         setTitle(title: "NUESTRA HISTORIA");
         return CCDetails(
           content: DetailsView(
-            text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
             onBackPressed: () {
               _appState.updateContentScreen(ContentScreen.home);
             },
           ),
-          imageUrl:
-              "https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/unnamed.jpg?alt=media&token=484f47f7-7f89-45b7-8355-79ec3a02a2ac",
+          appState: _appState,
         );
         break;
       case ContentViews.location:
@@ -280,54 +281,61 @@ class _RouteState extends State<MainRoute> {
         setTitle(title: "Mujeres Determinantes");
         return CCDetails(
           content: DetailsView(
-            text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
             onBackPressed: () =>
                 _appState.updateContentScreen(ContentScreen.ministries),
           ),
-          imageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Fdeterminantes.png?alt=media&token=217bfbd9-f830-4b5c-b8aa-0bdc6ab9b903',
+          appState: _appState,
         );
         break;
       case ContentViews.entrepenours:
         setTitle(title: "Emprendedores de Reino");
         return CCDetails(
           content: DetailsView(
-            text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
             onBackPressed: () =>
                 _appState.updateContentScreen(ContentScreen.ministries),
           ),
-          imageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Femprendedores.png?alt=media&token=c6760886-6dc6-44e7-9390-0ece59188451',
+          appState: _appState,
         );
         break;
       case ContentViews.kids:
         setTitle(title: "IgleKids");
         return CCDetails(
           content: DetailsView(
-            text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
             onBackPressed: () =>
                 _appState.updateContentScreen(ContentScreen.ministries),
           ),
-          imageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Figlekids.png?alt=media&token=a5f80e01-0f6a-4554-ade9-38c40cbb3db6',
+          appState: _appState,
         );
         break;
       case ContentViews.r21:
         setTitle(title: "R21");
         return CCDetails(
           content: DetailsView(
-            text:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ac magna in mi faucibus efficitur et eget nibh. Suspendisse tincidunt at ligula sed facilisis. Phasellus enim quam, aliquam id lectus vitae, malesuada pellentesque tellus. Aliquam et nibh magna. Vivamus semper viverra quam a eleifend. Sed id ligula sit amet ligula sagittis faucibus. Morbi accumsan aliquet felis non euismod. Nunc eu aliquam lorem. Etiam posuere est ornare tellus gravida, sit amet auctor nisl finibus. Praesent id venenatis nulla, quis facilisis urna. Cras pellentesque neque in quam lobortis, eget lobortis mauris faucibus. Vestibulum aliquet ullamcorper lacinia. Etiam blandit efficitur placerat. Etiam pulvinar, nunc ac maximus rhoncus, orci lacus rhoncus urna, nec scelerisque felis metus a eros. Duis condimentum consectetur ultricies.",
             onBackPressed: () =>
                 _appState.updateContentScreen(ContentScreen.ministries),
           ),
-          imageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/cc-bogota.appspot.com/o/ministries%2Fr21.png?alt=media&token=8bbc059b-13fa-4410-895e-77c81a8a4964',
+          appState: _appState,
         );
         break;
     }
+  }
+
+  Widget getFutureBuilder(String viewName, Widget content) {
+    return FutureBuilder<ViewData>(
+      future: getViewData(viewName),
+      builder: (BuildContext context, AsyncSnapshot<ViewData> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            _appState.updateViewdata(snapshot.data);
+            return content;
+          } else if (snapshot.hasError) {
+            Text('error');
+          }
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }

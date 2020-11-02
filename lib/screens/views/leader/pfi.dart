@@ -66,9 +66,7 @@ class _PFIFormState extends State<PFIForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        GradientImage(
-            imageUrl:
-                "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"),
+        GradientImage(imageUrl: widget.appState.viewData.cover),
         Expanded(
           child: SingleChildScrollView(
             child: Padding(
