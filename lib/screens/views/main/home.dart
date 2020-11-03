@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/enums.dart';
-import 'package:cc_bogota/models/view.dart';
+import 'package:cc_bogota/models/viewData.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/event_card.dart';
 import 'package:cc_bogota/constants/colors.dart';

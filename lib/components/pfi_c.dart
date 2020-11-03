@@ -17,15 +17,15 @@ class FormC extends StatefulWidget {
 }
 
 class _FormCState extends State<FormC> {
-  TextEditingController amigo1Controller;
-  TextEditingController direccion1Controller;
-  TextEditingController telefono1Controller;
-  TextEditingController amigo2Controller;
-  TextEditingController direccion2Controller;
-  TextEditingController telefono2Controller;
-  TextEditingController amigo3Controller;
-  TextEditingController direccion3Controller;
-  TextEditingController telefono3Controller;
+  TextEditingController amigo1Controller,
+      direccion1Controller,
+      telefono1Controller,
+      amigo2Controller,
+      direccion2Controller,
+      telefono2Controller,
+      amigo3Controller,
+      direccion3Controller,
+      telefono3Controller;
   final List<String> categories = List();
 
   @override
@@ -200,5 +200,19 @@ class _FormCState extends State<FormC> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    amigo1Controller.dispose();
+    direccion1Controller.dispose();
+    telefono1Controller.dispose();
+    amigo2Controller.dispose();
+    direccion2Controller.dispose();
+    telefono2Controller.dispose();
+    amigo3Controller.dispose();
+    direccion3Controller.dispose();
+    telefono3Controller.dispose();
+    super.dispose();
   }
 }

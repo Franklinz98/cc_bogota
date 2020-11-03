@@ -1,3 +1,5 @@
+import 'package:cc_bogota/constants/enums.dart';
+
 class ViewData {
   String _cover, _text;
   List _carroussel;
@@ -24,13 +26,13 @@ class ViewData {
     );
   }
 
-  Map<String, dynamic> toJson(int viewType) {
+  Map<String, dynamic> toJson(ViewType viewType) {
     switch (viewType) {
-      case 1:
+      case ViewType.text:
         return {'cover': _cover, 'text': _text};
-      case 2:
+      case ViewType.image:
         return {'cover': _cover};
-      case 3:
+      case ViewType.redirect:
         return {'list': _redirect};
       default:
         return {'carroussel': _carroussel};

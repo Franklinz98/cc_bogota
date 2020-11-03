@@ -16,15 +16,15 @@ class FormA extends StatefulWidget {
 }
 
 class _FormAState extends State<FormA> {
-  TextEditingController supervisorController;
-  TextEditingController groupPhilipController;
-  TextEditingController code;
-  TextEditingController groupName;
-  TextEditingController address;
-  TextEditingController leader;
-  TextEditingController assistant;
-  TextEditingController childrenT;
-  TextEditingController host;
+  TextEditingController supervisorController,
+      groupPhilipController,
+      code,
+      groupName,
+      address,
+      leader,
+      assistant,
+      childrenT,
+      host;
   Function _validator;
 
   @override
@@ -160,5 +160,19 @@ class _FormAState extends State<FormA> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    supervisorController.dispose();
+    groupPhilipController.dispose();
+    code.dispose();
+    groupName.dispose();
+    address.dispose();
+    leader.dispose();
+    assistant.dispose();
+    childrenT.dispose();
+    host.dispose();
+    super.dispose();
   }
 }

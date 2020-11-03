@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/models/school_request.dart';
-import 'package:cc_bogota/models/view.dart';
+import 'package:cc_bogota/models/viewData.dart';
 import 'package:http/http.dart' as http;
 
 String baseUrl = 'ccbapp-api.herokuapp.com';
@@ -148,4 +149,20 @@ Future<ViewData> getViewData(String viewName) async {
     return ViewData.fromJson(data);
   }
   return null;
+}
+
+Future<void> updateViewData(
+    String viewName, ViewData viewData, ViewType viewType, String token) async {
+  var uri = Uri.https(baseUrl, '/views/$viewName');
+  final response = await http.post(uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: "Bearer " + token,
+      },
+      body: json.encode(
+        viewData.toJson(viewType),
+      ));
+  if (response.statusCode != 200) {
+    throw Exception('bad response');
+  }
 }

@@ -239,4 +239,10 @@ class _WidgetState extends State<CredentialsManagement> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    email.dispose();
+    super.dispose();
+  }
 }

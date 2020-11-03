@@ -1,5 +1,5 @@
 import 'package:cc_bogota/constants/enums.dart';
-import 'package:cc_bogota/models/view.dart';
+import 'package:cc_bogota/models/viewData.dart';
 import 'package:flutter/foundation.dart';
 
 class CCState extends ChangeNotifier {

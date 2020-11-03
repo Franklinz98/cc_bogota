@@ -72,16 +72,15 @@ class _WidgetState extends State<RequestList> {
           ),
           Expanded(
             child: FutureBuilder<List>(
-              future: getDocuments('Escuela', _dateTime,
-                  appState.authToken),
+              future: getDocuments('Escuela', _dateTime, appState.authToken),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     List data = snapshot.data;
                     return ListView.builder(
                       itemBuilder: (BuildContext context, int index) {
-                        SchoolRequest request =
-                            SchoolRequest.fromJson(data[index]);
+                        SchoolRequest request = SchoolRequest.fromJson(
+                            data[index]['key'], data[index]['data']);
                         return SchoolTile(
                           request: request,
                         );

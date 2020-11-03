@@ -1,7 +1,7 @@
 import 'package:cc_bogota/backend/authentication.dart';
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/details_view.dart';
-import 'package:cc_bogota/models/view.dart';
+import 'package:cc_bogota/models/viewData.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/screens/routes/admin.dart';
 import 'package:cc_bogota/screens/routes/authentication.dart';

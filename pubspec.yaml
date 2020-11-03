@@ -36,6 +36,8 @@ dependencies:
   cached_network_image: ^2.2.0+1
   url_launcher: ^5.5.0
   flutter_datetime_picker: ^1.4.0
+  file_picker: ^2.0.11
+  path: ^1.7.0
 
   http: ^0.12.2
   provider: ^4.3.2+2

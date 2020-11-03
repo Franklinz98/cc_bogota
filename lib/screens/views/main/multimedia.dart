@@ -1,5 +1,5 @@
 import 'package:cc_bogota/components/ministry_banner.dart';
-import 'package:cc_bogota/models/view.dart';
+import 'package:cc_bogota/models/viewData.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:cc_bogota/backend/requets.dart';

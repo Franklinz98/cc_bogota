@@ -74,16 +74,16 @@ class _WidgetState extends State<PfiList> {
           ),
           Expanded(
             child: FutureBuilder<List>(
-              future: getDocuments('PFI', _dateTime,
-                  appState.authToken),
+              future: getDocuments('PFI', _dateTime, appState.authToken),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   if (snapshot.hasData) {
                     List data = snapshot.data;
                     return ListView.builder(
                       itemBuilder: (BuildContext context, int index) {
-                        PfiForm form = PfiForm(data: data[index]);
-                        return PfiTile(id: form.getData('codigo'), form: form);
+                        PfiForm form = PfiForm(
+                            key: data[index]['key'], data: data[index]['data']);
+                        return PfiTile(form: form);
                       },
                       itemCount: data.length,
                     );
@@ -99,50 +99,5 @@ class _WidgetState extends State<PfiList> {
         ],
       ),
     );
-  }
-
-  // TODO delete
-  PfiForm _form() {
-    return PfiForm(data: {
-      'supervisor': 'supervisorController.text',
-      'felipe': 'groupPhilipController.text',
-      'codigo': 1245,
-      'nombre': 'groupName.text',
-      'direccion': 'address.text',
-      'lider': 'leader.text',
-      'asistente': 'assistant.text',
-      'maestro': 'childrenT.text',
-      'anfitrion': 'host.text',
-      'felipes': 5,
-      'etiopes': 4,
-      'amigos': 6,
-      'ninos': 4,
-      'ausentes': 6,
-      'visitas': 4,
-      'cadultos': 5,
-      'cninos': 2,
-      'reconciliados': 0,
-      'diezmo': 2500,
-      'ofrenda': 5000,
-      'total': 7500,
-      'mamigo': 2,
-      'consolidacion': 4,
-      'discipulado': 4,
-      'hermanos': 4,
-      'amigos1': 5,
-      'ninos1': 4,
-      'vea': 5,
-      'escuela': 4,
-      'amigo1': 'amigo1Controller.text',
-      'direccion1': 'direccion1Controller.text',
-      'telefono1': 'telefono1Controller.text',
-      'amigo2': 'amigo2Controller.text',
-      'direccion2': 'direccion2Controller.text',
-      'telefono2': 'telefono2Controller.text',
-      'amigo3': 'amigo3Controller.text',
-      'direccion3': 'direccion3Controller.text',
-      'telefono3': 'telefono3Controller.text',
-      'actualizaciones': '[asd,rtty,dffg,qw]',
-    });
   }
 }

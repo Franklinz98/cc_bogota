@@ -16,26 +16,26 @@ class FormB extends StatefulWidget {
 }
 
 class _FormBState extends State<FormB> {
-  TextEditingController felipesController;
-  TextEditingController etiopesController;
-  TextEditingController amigosController;
-  TextEditingController ninosController;
-  TextEditingController ausentesController;
-  TextEditingController visitasController;
-  TextEditingController cadultosController;
-  TextEditingController cninosController;
-  TextEditingController reconciliadosController;
-  TextEditingController diezmoController;
-  TextEditingController ofrendaController;
-  TextEditingController totalController;
-  TextEditingController mamigoController;
-  TextEditingController consolidacionController;
-  TextEditingController discipuladoController;
-  TextEditingController hermanosController;
-  TextEditingController amigos1Controller;
-  TextEditingController ninos1Controller;
-  TextEditingController veaController;
-  TextEditingController escuelaController;
+  TextEditingController felipesController,
+      etiopesController,
+      amigosController,
+      ninosController,
+      ausentesController,
+      visitasController,
+      cadultosController,
+      cninosController,
+      reconciliadosController,
+      diezmoController,
+      ofrendaController,
+      totalController,
+      mamigoController,
+      consolidacionController,
+      discipuladoController,
+      hermanosController,
+      amigos1Controller,
+      ninos1Controller,
+      veaController,
+      escuelaController;
   Function _validator;
 
   @override
@@ -401,5 +401,30 @@ class _FormBState extends State<FormB> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    felipesController.dispose();
+    etiopesController.dispose();
+    amigosController.dispose();
+    ninosController.dispose();
+    ausentesController.dispose();
+    visitasController.dispose();
+    cadultosController.dispose();
+    cninosController.dispose();
+    reconciliadosController.dispose();
+    diezmoController.dispose();
+    ofrendaController.dispose();
+    totalController.dispose();
+    mamigoController.dispose();
+    consolidacionController.dispose();
+    discipuladoController.dispose();
+    hermanosController.dispose();
+    amigos1Controller.dispose();
+    ninos1Controller.dispose();
+    veaController.dispose();
+    escuelaController.dispose();
+    super.dispose();
   }
 }

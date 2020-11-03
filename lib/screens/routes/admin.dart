@@ -1,6 +1,8 @@
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/screens/views/admin/credentials.dart';
+import 'package:cc_bogota/screens/views/admin/redirection.dart';
 import 'package:cc_bogota/screens/views/admin/school.dart';
+import 'package:cc_bogota/screens/views/admin/views.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -57,6 +59,10 @@ class _RouteState extends State<AdminRoute> {
                 label: 'Vistas',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.link_outlined),
+                label: 'Redirección',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.supervised_user_circle_outlined),
                 label: 'Usuarios',
               ),
@@ -87,7 +93,13 @@ class _RouteState extends State<AdminRoute> {
       case 1:
         _content = RequestList();
         break;
+      case 3:
+        _content = ViewUpdate();
+        break;
       case 4:
+        _content = Redirect();
+        break;
+      case 5:
         _content = CredentialsManagement();
         break;
       default:

@@ -6,10 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class PfiTile extends StatelessWidget {
   final PfiForm form;
-  final String id;
 
-  const PfiTile({Key key, @required this.id, @required this.form})
-      : super(key: key);
+  const PfiTile({Key key, @required this.form}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class PfiTile extends StatelessWidget {
             color: Colors.white,
           ),
           title: Text(
-            this.id,
+            this.form.id,
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.w500,
               fontSize: 14,

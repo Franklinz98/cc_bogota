@@ -8,6 +8,7 @@ class CCField extends StatefulWidget {
   final TextInputType inputType;
   final bool obscureText;
   final TextEditingController controller;
+  final int maxLines;
 
   const CCField(
       {Key key,
@@ -15,7 +16,8 @@ class CCField extends StatefulWidget {
       this.labelText,
       this.validator,
       this.inputType,
-      this.obscureText = false})
+      this.obscureText = false,
+      this.maxLines = 1})
       : super(key: key);
   @override
   _CCFieldState createState() => _CCFieldState();
@@ -26,7 +28,6 @@ class _CCFieldState extends State<CCField> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      height: 50.00,
       decoration: BoxDecoration(
         color: AppColors.ebony,
         borderRadius: BorderRadius.circular(4.00),
@@ -46,6 +47,7 @@ class _CCFieldState extends State<CCField> {
         obscureText: widget.obscureText,
         validator: widget.validator,
         controller: widget.controller,
+        maxLines: widget.maxLines,
       ),
     );
   }
