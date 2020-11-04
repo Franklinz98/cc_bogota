@@ -68,6 +68,7 @@ class _WidgetState extends State<ViewUpdate> {
                           setState(() {
                             _selectedView = ViewMetadata(value);
                             text.clear();
+                            _fileName = 'nada seleccionado';
                             _file = null;
                             _files = null;
                           });
