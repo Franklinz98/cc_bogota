@@ -5,6 +5,7 @@ import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/models/viewMetadata.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/widgets/ccfield.dart';
+import 'package:cc_bogota/widgets/upload_dialog.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,7 +89,16 @@ class _WidgetState extends State<ViewUpdate> {
               height: 50.0,
               color: AppColors.genoa,
               child: Text("Aceptar".toUpperCase()),
-              onPressed: () {},
+              onPressed: () {
+                if (_file != null || (_files != null && _files.length > 1)) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => UploadDialog(
+
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),
