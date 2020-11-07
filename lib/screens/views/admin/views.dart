@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/constants/enums.dart';
+import 'package:cc_bogota/models/viewData.dart';
 import 'package:cc_bogota/models/viewMetadata.dart';
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/widgets/ccfield.dart';
 import 'package:cc_bogota/widgets/upload_dialog.dart';
@@ -10,6 +13,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
+import 'package:provider/provider.dart';
 
 class ViewUpdate extends StatefulWidget {
   @override
@@ -25,6 +29,7 @@ class _WidgetState extends State<ViewUpdate> {
   File _file;
   ViewMetadata _selectedView;
   List<DropdownMenuItem> _dropdownItems;
+  CCState _appState;
 
   @override
   void initState() {
@@ -39,71 +44,154 @@ class _WidgetState extends State<ViewUpdate> {
       }
       return null;
     };
+    _appState = Provider.of<CCState>(context, listen: false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          top: 24.0, left: 16.0, right: 16.0, bottom: 8.0),
-      child: Form(
-        key: formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Vista: ',
-                  style: GoogleFonts.roboto(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white),
-                ),
-                Expanded(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        value: _selectedView.value,
-                        items: _dropdownItems,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedView = ViewMetadata(value);
-                            text.clear();
-                            _fileName = 'nada seleccionado';
-                            _file = null;
-                            _files = null;
-                          });
-                        }),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(
+            top: 24.0, left: 16.0, right: 16.0, bottom: 8.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Vista: ',
+                    style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            _getForm(),
-            SizedBox(
-              height: 24.0,
-            ),
-            CCButton(
-              height: 50.0,
-              color: AppColors.genoa,
-              child: Text("Aceptar".toUpperCase()),
-              onPressed: () {
-                if (_file != null || (_files != null && _files.length > 1)) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => UploadDialog(
-
+                  Expanded(
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                          value: _selectedView.value,
+                          items: _dropdownItems,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedView = ViewMetadata(value);
+                              text.clear();
+                              _fileName = 'nada seleccionado';
+                              _file = null;
+                              _files = null;
+                            });
+                          }),
                     ),
-                  );
-                }
-              },
-            ),
-          ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              _getForm(),
+              SizedBox(
+                height: 24.0,
+              ),
+              CCButton(
+                height: 50.0,
+                color: AppColors.genoa,
+                child: Text("Aceptar".toUpperCase()),
+                onPressed: () {
+                  if (_file != null || (_files != null && _files.length > 1)) {
+                    switch (_selectedView.type) {
+                      case ViewType.carroussel:
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => UploadDialog(
+                            viewName: _selectedView.key,
+                            files: _files,
+                          ),
+                        ).then(
+                          (urls) => updateData(carroussel: urls).then(
+                            (value) =>
+                                Scaffold.of(context).showSnackBar(SnackBar(
+                              content: Text('Vista actualizada'),
+                            )),
+                          ),
+                        );
+                        break;
+                      case ViewType.image:
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => UploadDialog(
+                            viewName: _selectedView.key,
+                            file: _file,
+                          ),
+                        ).then(
+                          (url) => updateData(cover: url).then(
+                            (value) => Scaffold.of(context).showSnackBar(
+                              SnackBar(content: Text('Vista actualizada')),
+                            ),
+                          ),
+                        );
+                        break;
+                      case ViewType.text:
+                        if (formKey.currentState.validate()) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => UploadDialog(
+                              viewName: _selectedView.key,
+                              file: _file,
+                            ),
+                          ).then((url) =>
+                              updateData(cover: url, text: text.text).then(
+                                (value) => Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text('Vista actualizada')),
+                                ),
+                              ));
+                        } else {
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Ingrese el text.'),
+                          ));
+                        }
+                        break;
+                      default:
+                    }
+                  } else {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text('Seleccione los archivos.'),
+                    ));
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future<void> updateData({List carroussel, String cover, String text}) async {
+    try {
+      switch (_selectedView.type) {
+        case ViewType.carroussel:
+          ViewData viewData = ViewData(carroussel: carroussel);
+          await updateViewData(_selectedView.key, viewData, ViewType.carroussel,
+              _appState.authToken);
+          break;
+        case ViewType.image:
+          ViewData viewData = ViewData(cover: cover);
+          await updateViewData(
+              _selectedView.key, viewData, ViewType.image, _appState.authToken);
+          break;
+        case ViewType.text:
+          ViewData viewData = ViewData(cover: cover, text: text);
+          await updateViewData(
+              _selectedView.key, viewData, ViewType.text, _appState.authToken);
+          break;
+        default:
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   List<DropdownMenuItem> getDropDownItems() {
@@ -206,9 +294,9 @@ class _WidgetState extends State<ViewUpdate> {
                         }
                       });
                     } else {
-                      SnackBar(
+                      Scaffold.of(context).showSnackBar(SnackBar(
                         content: Text('Se canceló la selección.'),
-                      );
+                      ));
                     }
                   })
             ],

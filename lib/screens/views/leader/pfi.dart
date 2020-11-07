@@ -63,20 +63,26 @@ class _PFIFormState extends State<PFIForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        GradientImage(imageUrl: widget.appState.viewData.cover),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-              child: _getScreen(),
+    return WillPopScope(
+      onWillPop: () async {
+        widget.appState.updateContentScreen(ContentScreen.home);
+        return false;
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          GradientImage(imageUrl: widget.appState.viewData.cover),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 16.0),
+                child: _getScreen(),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

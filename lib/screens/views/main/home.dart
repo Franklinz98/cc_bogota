@@ -3,12 +3,11 @@ import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/models/viewData.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
-import 'package:cc_bogota/widgets/event_card.dart';
 import 'package:cc_bogota/constants/colors.dart';
+import 'package:cc_bogota/widgets/events_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:cc_bogota/models/event.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Main extends StatefulWidget {
@@ -206,43 +205,7 @@ class _MainState extends State<Main> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6.0),
-          child: Row(
-            children: <Widget>[
-              EventCard(
-                event: CCEvent(
-                  title: "Reunión - Liberación y Guerra Espiritual",
-                  dateTime: DateTime.parse("2020-06-28 19:00:00"),
-                ),
-              ),
-              SizedBox(
-                width: 8.0,
-              ),
-              EventCard(
-                event: CCEvent(
-                  title: "Reunión - Familias con Propósito",
-                  dateTime: DateTime.parse("2020-06-29 19:00:00"),
-                ),
-              ),
-              SizedBox(
-                width: 8.0,
-              ),
-              EventCard(
-                event: CCEvent(
-                  title: "Reunión - F.A.M.A",
-                  dateTime: DateTime.parse("2020-06-30 19:30:00"),
-                ),
-              ),
-              SizedBox(
-                width: 8.0,
-              ),
-              EventCard(
-                event: CCEvent(
-                  title: "R21 - Noches de Renovación",
-                  dateTime: DateTime.parse("2020-07-01 18:30:00"),
-                ),
-              ),
-            ],
-          ),
+          child: EventBar(),
         ),
         SizedBox(
           height: 16.0,
@@ -289,8 +252,7 @@ class _MainState extends State<Main> {
                   height: 42.0,
                 ),
                 onTap: () async {
-                  final url =
-                      widget.appState.redirect['instagram'];
+                  final url = widget.appState.redirect['instagram'];
                   if (await canLaunch(url))
                     launch(url);
                   else
@@ -307,8 +269,7 @@ class _MainState extends State<Main> {
                   height: 42.0,
                 ),
                 onTap: () async {
-                  final url =
-                      widget.appState.redirect['youtube'];
+                  final url = widget.appState.redirect['youtube'];
                   if (await canLaunch(url))
                     launch(url);
                   else

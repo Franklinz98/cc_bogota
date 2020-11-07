@@ -31,7 +31,6 @@ dependencies:
   google_fonts: ^1.1.0
   getwidget: ^1.1.0
   intl: ^0.16.1
-  transparent_image: ^1.0.0
   google_maps_flutter: ^0.5.28+1
   cached_network_image: ^2.2.0+1
   url_launcher: ^5.5.0
@@ -41,14 +40,24 @@ dependencies:
 
   http: ^0.12.2
   provider: ^4.3.2+2
+  flutter_launcher_icons: ^0.8.1
 
   # Firebase plugins
-  firebase_core: "0.5.0+1"
+  firebase_core: ^0.5.1
   firebase_auth: "^0.18.1+2"
+  firebase_storage: ^5.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/launcher/icon.png"
+  image_path_android: "assets/launcher/icon.png"
+  adaptive_icon_background: "assets/launcher/background.png"
+  adaptive_icon_foreground: "assets/launcher/foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

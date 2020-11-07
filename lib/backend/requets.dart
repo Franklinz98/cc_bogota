@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:cc_bogota/constants/enums.dart';
+import 'package:cc_bogota/models/event.dart';
 import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/models/viewData.dart';
 import 'package:http/http.dart' as http;
@@ -162,7 +163,43 @@ Future<void> updateViewData(
       body: json.encode(
         viewData.toJson(viewType),
       ));
+
   if (response.statusCode != 200) {
     throw Exception('bad response');
   }
+}
+
+Future<void> postCCEvent(CCEvent event, String token) async {
+  var uri = Uri.https(baseUrl, '/events');
+  final response = await http.post(uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: "Bearer " + token,
+      },
+      body: json.encode(event.toJson()));
+  if (response.statusCode != 200) {
+    throw Exception('bad response');
+  }
+}
+
+Future<List<CCEvent>> getCCEvents(DateTime date) async {
+  var uri = Uri.https(baseUrl, '/events/${date.millisecondsSinceEpoch}');
+  final response = await http.get(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+  if (response.statusCode == 200) {
+    List eventsMap = json.decode(response.body);
+    List<CCEvent> events = List();
+    eventsMap.forEach((element) {
+      events.add(CCEvent.fromJson(element));
+    });
+    for (var i = events.length; i < 4; i++) {
+      events.add(null);
+    }
+    return events;
+  }
+  throw Exception('');
 }

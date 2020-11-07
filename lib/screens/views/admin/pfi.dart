@@ -1,9 +1,7 @@
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/pfi_tile.dart';
-import 'package:cc_bogota/components/school_tile.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/pfi_form.dart';
-import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';

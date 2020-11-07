@@ -13,6 +13,8 @@ class CCDrawer extends StatelessWidget {
       onKnowYou,
       onContact,
       onPFI,
+      onPP,
+      onTC,
       onLogin,
       onLogOff;
 
@@ -26,6 +28,8 @@ class CCDrawer extends StatelessWidget {
     @required this.onKnowYou,
     @required this.onContact,
     @required this.onPFI,
+    @required this.onPP,
+    @required this.onTC,
     @required this.onLogin,
     @required this.onLogOff,
   }) : super(key: key);
@@ -144,6 +148,20 @@ class CCDrawer extends StatelessWidget {
               Spacer(),
               GestureDetector(
                 child: Text(
+                  "Política de Privacidad",
+                  style: GoogleFonts.roboto(
+                    fontWeight: FontWeight.w300,
+                    fontSize: 14,
+                    color: Color(0xffbbbbbb),
+                  ),
+                ),
+                onTap: this.onPP,
+              ),
+              SizedBox(
+                height: 16.0,
+              ),
+              GestureDetector(
+                child: Text(
                   "Términos y Condiciones",
                   style: GoogleFonts.roboto(
                     fontWeight: FontWeight.w300,
@@ -151,19 +169,7 @@ class CCDrawer extends StatelessWidget {
                     color: Color(0xffbbbbbb),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              GestureDetector(
-                child: Text(
-                  "Acerca de",
-                  style: GoogleFonts.roboto(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    color: Color(0xffbbbbbb),
-                  ),
-                ),
+                onTap: this.onTC,
               ),
               Spacer(),
               Provider.of<CCState>(context, listen: true).authToken == null

@@ -1,5 +1,6 @@
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/screens/views/admin/credentials.dart';
+import 'package:cc_bogota/screens/views/admin/events.dart';
 import 'package:cc_bogota/screens/views/admin/redirection.dart';
 import 'package:cc_bogota/screens/views/admin/school.dart';
 import 'package:cc_bogota/screens/views/admin/views.dart';
@@ -92,6 +93,9 @@ class _RouteState extends State<AdminRoute> {
         break;
       case 1:
         _content = RequestList();
+        break;
+      case 2:
+        _content = PostEvent();
         break;
       case 3:
         _content = ViewUpdate();

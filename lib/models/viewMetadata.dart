@@ -1,5 +1,4 @@
 import 'package:cc_bogota/constants/enums.dart';
-import 'package:flutter/material.dart';
 
 class ViewMetadata {
   String name, key;

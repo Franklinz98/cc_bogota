@@ -21,7 +21,7 @@ class ViewData {
     return ViewData(
       cover: map['cover'] ?? '',
       text: map['text'] ?? '',
-      carroussel: map['carroussel'] ?? List(),
+      carroussel: map['carousel'] ?? List(),
       map: map['list'] ?? {},
     );
   }
@@ -35,7 +35,7 @@ class ViewData {
       case ViewType.redirect:
         return {'list': _redirect};
       default:
-        return {'carroussel': _carroussel};
+        return {'carousel': _carroussel};
     }
   }
 }

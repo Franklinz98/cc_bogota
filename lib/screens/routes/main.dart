@@ -7,6 +7,8 @@ import 'package:cc_bogota/screens/routes/admin.dart';
 import 'package:cc_bogota/screens/routes/authentication.dart';
 import 'package:cc_bogota/screens/views/main/multimedia.dart';
 import 'package:cc_bogota/screens/views/main/school.dart';
+import 'package:cc_bogota/screens/views/policies/privacy_policy.dart';
+import 'package:cc_bogota/screens/views/policies/terms_cond.dart';
 import 'package:cc_bogota/widgets/appbar.dart';
 import 'package:cc_bogota/components/contact_us.dart';
 import 'package:cc_bogota/components/donations_details.dart';
@@ -138,6 +140,14 @@ class _RouteState extends State<MainRoute> {
                 content: Text('No estás registrado como Felipe Líder.')));
           }
         },
+        onPP: () {
+          widget._scaffoldKey.currentState.openEndDrawer();
+          _appState.updateContentScreen(ContentScreen.pp);
+        },
+        onTC: () {
+          widget._scaffoldKey.currentState.openEndDrawer();
+          _appState.updateContentScreen(ContentScreen.tc);
+        },
         onLogin: () {
           Navigator.push(
             context,
@@ -156,6 +166,7 @@ class _RouteState extends State<MainRoute> {
           signOut().then((value) {
             Provider.of<CCState>(context, listen: false).updateToken();
             Provider.of<CCState>(context, listen: false).updateClearanceLevel();
+            _appState.updateContentScreen(ContentScreen.home);
           });
         },
       ),
@@ -243,6 +254,12 @@ class _RouteState extends State<MainRoute> {
             appState: _appState,
           ),
         );
+      case ContentScreen.pp:
+        setTitle();
+        return PrivacyPolicy();
+      case ContentScreen.tc:
+        setTitle();
+        return TermsCond();
 
       default:
         return getView(_appState.view);

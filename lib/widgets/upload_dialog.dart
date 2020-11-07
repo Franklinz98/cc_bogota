@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:cc_bogota/backend/storage.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,8 +10,10 @@ import 'package:path/path.dart' as p;
 class UploadDialog extends StatefulWidget {
   final File file;
   final List<File> files;
+  final String viewName;
 
-  const UploadDialog({Key key, this.file, this.files}) : super(key: key);
+  const UploadDialog({Key key, @required this.viewName, this.file, this.files})
+      : super(key: key);
 
   @override
   _DialogState createState() => _DialogState();
@@ -29,11 +33,14 @@ class _DialogState extends State<UploadDialog> {
       _total = 1;
     } else {
       _currentFile = widget.files[0];
-      _total = 1;
+      _total = widget.files.length;
     }
     _currentImg = 0;
     _imageName = p.basename(_currentFile.path);
     _progress = 0;
+    Timer(Duration(seconds: 1, milliseconds: 200), () {
+      uploadFiles();
+    });
   }
 
   @override
@@ -52,8 +59,12 @@ class _DialogState extends State<UploadDialog> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
+          SizedBox(
+            width: 500,
+          ),
           Text(
             'Imagen: $_imageName',
+            maxLines: 1,
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.w400,
               fontSize: 15,
@@ -83,7 +94,7 @@ class _DialogState extends State<UploadDialog> {
             height: 16.0,
           ),
           Text(
-            'Progreso: ${_progress * 100}%',
+            'Progreso: ${(_progress * 100).round()}%',
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.w400,
               fontSize: 15,
@@ -100,5 +111,41 @@ class _DialogState extends State<UploadDialog> {
         ],
       ),
     );
+  }
+
+  void uploadFiles() async {
+    if (widget.file != null) {
+      try {
+        await uploadFile(_currentFile, widget.viewName, (double progress) {
+          setState(() {
+            _progress = progress;
+          });
+        }, (String downloadUrl) {
+          Navigator.of(context).pop(downloadUrl);
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    } else {
+      List<String> downloadUrls = List();
+      while (_currentImg < _total) {
+        await uploadFile(_currentFile, '${widget.viewName}_$_currentImg',
+            (double progress) {
+          setState(() {
+            _progress = progress;
+          });
+        }, (String downloadUrl) {
+          setState(() {
+            _currentImg++;
+            if (_currentImg < _total) {
+              _currentFile = widget.files[_currentImg];
+              _imageName = p.basename(_currentFile.path);
+            }
+            downloadUrls.add(downloadUrl);
+          });
+        });
+      }
+      Navigator.of(context).pop(downloadUrls);
+    }
   }
 }
