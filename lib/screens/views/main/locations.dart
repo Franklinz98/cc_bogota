@@ -1,10 +1,15 @@
 import 'dart:async';
 
+import 'package:cc_bogota/constants/enums.dart';
+import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class CCLocations extends StatefulWidget {
+  final CCState appState;
+
+  CCLocations({Key key, @required this.appState}) : super(key: key);
   @override
   _CCLocationsState createState() => _CCLocationsState();
 }
@@ -38,25 +43,31 @@ class _CCLocationsState extends State<CCLocations> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Expanded(
-          child: GoogleMap(
-            initialCameraPosition: _kGooglePlex,
-            onMapCreated: (GoogleMapController controller) {
-              if (!_controller.isCompleted) {
-                _controller.complete(controller);
-              }
-              mapController = controller;
-              mapController.setMapStyle(_darkMapStyle);
-              // controller.setMapStyle(_darkMapStyle);
-            },
-            markers: _markers,
-            zoomControlsEnabled: false,
+    return WillPopScope(
+      onWillPop: () async {
+        widget.appState.updateContentScreen(ContentScreen.home);
+        return false;
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Expanded(
+            child: GoogleMap(
+              initialCameraPosition: _kGooglePlex,
+              onMapCreated: (GoogleMapController controller) {
+                if (!_controller.isCompleted) {
+                  _controller.complete(controller);
+                }
+                mapController = controller;
+                mapController.setMapStyle(_darkMapStyle);
+                // controller.setMapStyle(_darkMapStyle);
+              },
+              markers: _markers,
+              zoomControlsEnabled: false,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

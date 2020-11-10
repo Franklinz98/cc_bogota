@@ -328,7 +328,9 @@ class _RouteState extends State<MainRoute> {
         break;
       case ContentViews.location:
         setTitle(title: "Encuentranos");
-        return CCLocations();
+        return CCLocations(
+          appState: _appState,
+        );
         break;
       case ContentViews.womens:
         setTitle(title: "Mujeres Determinantes");
