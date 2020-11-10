@@ -49,74 +49,90 @@ class _WidgetState extends State<ViewUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(
-            top: 24.0, left: 16.0, right: 16.0, bottom: 8.0),
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  Text(
-                    'Vista: ',
-                    style: GoogleFonts.roboto(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: 24.0, left: 16.0, right: 16.0, bottom: 8.0),
+      child: Form(
+        key: formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Vista: ',
+                  style: GoogleFonts.roboto(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+                Expanded(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        value: _selectedView.value,
+                        items: _dropdownItems,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedView = ViewMetadata(value);
+                            text.clear();
+                            _fileName = 'nada seleccionado';
+                            _file = null;
+                            _files = null;
+                          });
+                        }),
                   ),
-                  Expanded(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                          value: _selectedView.value,
-                          items: _dropdownItems,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedView = ViewMetadata(value);
-                              text.clear();
-                              _fileName = 'nada seleccionado';
-                              _file = null;
-                              _files = null;
-                            });
-                          }),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              _getForm(),
-              SizedBox(
-                height: 24.0,
-              ),
-              CCButton(
-                height: 50.0,
-                color: AppColors.genoa,
-                child: Text("Aceptar".toUpperCase()),
-                onPressed: () {
-                  if (_file != null || (_files != null && _files.length > 1)) {
-                    switch (_selectedView.type) {
-                      case ViewType.carroussel:
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (context) => UploadDialog(
-                            viewName: _selectedView.key,
-                            files: _files,
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 16.0,
+            ),
+            _getForm(),
+            SizedBox(
+              height: 24.0,
+            ),
+            CCButton(
+              height: 50.0,
+              color: AppColors.genoa,
+              child: Text("Aceptar".toUpperCase()),
+              onPressed: () {
+                if (_file != null || (_files != null && _files.length > 1)) {
+                  switch (_selectedView.type) {
+                    case ViewType.carroussel:
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => UploadDialog(
+                          viewName: _selectedView.key,
+                          files: _files,
+                        ),
+                      ).then(
+                        (urls) => updateData(carroussel: urls).then(
+                          (value) =>
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                            content: Text('Vista actualizada'),
+                          )),
+                        ),
+                      );
+                      break;
+                    case ViewType.image:
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => UploadDialog(
+                          viewName: _selectedView.key,
+                          file: _file,
+                        ),
+                      ).then(
+                        (url) => updateData(cover: url).then(
+                          (value) => Scaffold.of(context).showSnackBar(
+                            SnackBar(content: Text('Vista actualizada')),
                           ),
-                        ).then(
-                          (urls) => updateData(carroussel: urls).then(
-                            (value) =>
-                                Scaffold.of(context).showSnackBar(SnackBar(
-                              content: Text('Vista actualizada'),
-                            )),
-                          ),
-                        );
-                        break;
-                      case ViewType.image:
+                        ),
+                      );
+                      break;
+                    case ViewType.text:
+                      if (formKey.currentState.validate()) {
                         showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -124,46 +140,28 @@ class _WidgetState extends State<ViewUpdate> {
                             viewName: _selectedView.key,
                             file: _file,
                           ),
-                        ).then(
-                          (url) => updateData(cover: url).then(
-                            (value) => Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Vista actualizada')),
-                            ),
-                          ),
-                        );
-                        break;
-                      case ViewType.text:
-                        if (formKey.currentState.validate()) {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) => UploadDialog(
-                              viewName: _selectedView.key,
-                              file: _file,
-                            ),
-                          ).then((url) =>
-                              updateData(cover: url, text: text.text).then(
-                                (value) => Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text('Vista actualizada')),
-                                ),
-                              ));
-                        } else {
-                          Scaffold.of(context).showSnackBar(SnackBar(
-                            content: Text('Ingrese el text.'),
-                          ));
-                        }
-                        break;
-                      default:
-                    }
-                  } else {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Seleccione los archivos.'),
-                    ));
+                        ).then((url) =>
+                            updateData(cover: url, text: text.text).then(
+                              (value) => Scaffold.of(context).showSnackBar(
+                                SnackBar(content: Text('Vista actualizada')),
+                              ),
+                            ));
+                      } else {
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text('Ingrese el text.'),
+                        ));
+                      }
+                      break;
+                    default:
                   }
-                },
-              ),
-            ],
-          ),
+                } else {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text('Seleccione los archivos.'),
+                  ));
+                }
+              },
+            ),
+          ],
         ),
       ),
     );
@@ -203,9 +201,11 @@ class _WidgetState extends State<ViewUpdate> {
       "Iglekids",
       "Inicio",
       "Inscripción a Ruta Académica",
+      "Queremos Conocerte",
       "Mujeres Determinantes",
       "Nuestra Historia",
       "Nuestra Visión",
+      "Nuestros Pastores",
       "PFI",
       "R21",
       "Videos"

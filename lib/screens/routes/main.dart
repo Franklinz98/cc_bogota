@@ -5,6 +5,7 @@ import 'package:cc_bogota/models/viewData.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/screens/routes/admin.dart';
 import 'package:cc_bogota/screens/routes/authentication.dart';
+import 'package:cc_bogota/screens/views/main/know_you.dart';
 import 'package:cc_bogota/screens/views/main/multimedia.dart';
 import 'package:cc_bogota/screens/views/main/school.dart';
 import 'package:cc_bogota/screens/views/policies/privacy_policy.dart';
@@ -43,7 +44,7 @@ class _RouteState extends State<MainRoute> {
     Firebase.initializeApp().then((value) async {
       User firebaseUser = currentUser();
       if (firebaseUser != null) {
-        String jwtToken = await firebaseUser.getIdToken();
+        String jwtToken = await firebaseUser.getIdToken(true);
         Provider.of<CCState>(context, listen: false)
             .updateToken(token: jwtToken);
         getClearance(firebaseUser.uid, jwtToken).then((clearance) =>
@@ -119,13 +120,21 @@ class _RouteState extends State<MainRoute> {
           widget._scaffoldKey.currentState.openEndDrawer();
           _appState.updateContentScreen(ContentScreen.ministries);
         },
+        onPastors: () {
+          widget._scaffoldKey.currentState.openEndDrawer();
+          _appState.updateContentScreen(ContentScreen.pastors);
+        },
         onDonations: () {
           widget._scaffoldKey.currentState.openEndDrawer();
           _appState.updateContentScreen(ContentScreen.donations);
         },
-        onKnowYou: () {
+        onSchool: () {
           widget._scaffoldKey.currentState.openEndDrawer();
           _appState.updateContentScreen(ContentScreen.school);
+        },
+        onKnowYou: () {
+          widget._scaffoldKey.currentState.openEndDrawer();
+          _appState.updateContentScreen(ContentScreen.knowyou);
         },
         onContact: () {
           widget._scaffoldKey.currentState.openEndDrawer();
@@ -213,6 +222,19 @@ class _RouteState extends State<MainRoute> {
           appState: _appState,
         );
         break;
+      case ContentScreen.pastors:
+        setTitle(title: "NUESTROS PASTORES");
+        return getFutureBuilder(
+          'pastors',
+          CCDetails(
+            content: DetailsView(
+              onBackPressed: () =>
+                  _appState.updateContentScreen(ContentScreen.home),
+            ),
+            appState: _appState,
+          ),
+        );
+        break;
       case ContentScreen.pfi:
         setTitle(title: "INFORME SEMANAL");
         return getFutureBuilder(
@@ -245,6 +267,20 @@ class _RouteState extends State<MainRoute> {
           ),
         );
         break;
+      case ContentScreen.knowyou:
+        setTitle(title: "QUEREMOS CONOCERTE");
+        return getFutureBuilder(
+          'knowyou',
+          CCDetails(
+            content: KnowYou(
+              onFinish: () {
+                _appState.updateContentScreen(ContentScreen.home);
+              },
+            ),
+            appState: _appState,
+          ),
+        );
+        break;
       case ContentScreen.contact:
         setTitle(title: "CONTACTANOS");
         return getFutureBuilder(
@@ -256,10 +292,10 @@ class _RouteState extends State<MainRoute> {
         );
       case ContentScreen.pp:
         setTitle();
-        return PrivacyPolicy();
+        return PrivacyPolicy(appState: _appState);
       case ContentScreen.tc:
         setTitle();
-        return TermsCond();
+        return TermsCond(appState: _appState);
 
       default:
         return getView(_appState.view);

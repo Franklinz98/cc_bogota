@@ -40,8 +40,10 @@ class CCDetails extends StatelessWidget {
           SizedBox(
             height: 16.0,
           ),
-          SingleChildScrollView(
-            child: this.content,
+          Expanded(
+            child: SingleChildScrollView(
+              child: this.content,
+            ),
           ),
         ],
       ),

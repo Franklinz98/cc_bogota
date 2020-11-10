@@ -1,6 +1,7 @@
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/screens/views/admin/credentials.dart';
 import 'package:cc_bogota/screens/views/admin/events.dart';
+import 'package:cc_bogota/screens/views/admin/know.dart';
 import 'package:cc_bogota/screens/views/admin/redirection.dart';
 import 'package:cc_bogota/screens/views/admin/school.dart';
 import 'package:cc_bogota/screens/views/admin/views.dart';
@@ -52,6 +53,10 @@ class _RouteState extends State<AdminRoute> {
                 label: 'Escuela',
               ),
               BottomNavigationBarItem(
+                icon: Icon(Icons.person_pin),
+                label: 'Conocer',
+              ),
+              BottomNavigationBarItem(
                 icon: Icon(Icons.calendar_today_outlined),
                 label: 'Eventos',
               ),
@@ -95,15 +100,18 @@ class _RouteState extends State<AdminRoute> {
         _content = RequestList();
         break;
       case 2:
-        _content = PostEvent();
+        _content = KnowList();
         break;
       case 3:
-        _content = ViewUpdate();
+        _content = PostEvent();
         break;
       case 4:
-        _content = Redirect();
+        _content = ViewUpdate();
         break;
       case 5:
+        _content = Redirect();
+        break;
+      case 6:
         _content = CredentialsManagement();
         break;
       default:

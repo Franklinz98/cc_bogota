@@ -46,6 +46,7 @@ class _DialogState extends State<UploadDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      elevation: 0,
       title: Text(
         'CARGA DE IMAGENES',
         textAlign: TextAlign.center,

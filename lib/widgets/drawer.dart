@@ -9,8 +9,10 @@ class CCDrawer extends StatelessWidget {
   final GestureTapCallback onStart,
       onMedia,
       onMinistries,
+      onPastors,
       onDonations,
       onKnowYou,
+      onSchool,
       onContact,
       onPFI,
       onPP,
@@ -24,8 +26,10 @@ class CCDrawer extends StatelessWidget {
     @required this.onStart,
     @required this.onMedia,
     @required this.onMinistries,
+    @required this.onPastors,
     @required this.onDonations,
     @required this.onKnowYou,
+    @required this.onSchool,
     @required this.onContact,
     @required this.onPFI,
     @required this.onPP,
@@ -97,6 +101,19 @@ class CCDrawer extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text(
+                    "Nuestros Pastores",
+                    style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.white),
+                  ),
+                ),
+                onTap: this.onPastors,
+              ),
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Text(
                     "Plan Felipe Integral",
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w400,
@@ -124,6 +141,19 @@ class CCDrawer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text(
                     "Inscripción Ruta Acádemica",
+                    style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Colors.white),
+                  ),
+                ),
+                onTap: this.onSchool,
+              ),
+              GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Text(
+                    "Queremos Conocerte",
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,

@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cc_bogota/constants/enums.dart';
 import 'package:cc_bogota/models/event.dart';
+import 'package:cc_bogota/models/know_you_request.dart';
 import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/models/viewData.dart';
+import 'package:cc_bogota/screens/views/main/know_you.dart';
 import 'package:http/http.dart' as http;
 
 String baseUrl = 'ccbapp-api.herokuapp.com';
@@ -103,15 +105,64 @@ Future<bool> sentReport(Map report, String token) async {
   }
 }
 
-Future<bool> sentSchoolRequest(SchoolRequest request, String token) async {
+Future<bool> sentSchoolRequest(SchoolRequest request) async {
   var uri = Uri.https(baseUrl, '/documents/escuela');
   final response = await http.post(
     uri,
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
-      HttpHeaders.authorizationHeader: "Bearer " + token,
     },
     body: json.encode(request.toJson()),
+  );
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<bool> deleteSchoolRequest(
+    SchoolRequest request, DateTime date, String token) async {
+  var uri = Uri.https(
+      baseUrl, '/documents/escuela/${date.year}/${date.month}/${request.id}');
+  final response = await http.delete(
+    uri,
+    headers: <String, String>{
+      HttpHeaders.authorizationHeader: "Bearer " + token,
+    },
+  );
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<bool> sentKnowYouRequest(KnowYouRequest request) async {
+  var uri = Uri.https(baseUrl, '/documents/conocerte');
+  final response = await http.post(
+    uri,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: json.encode(request.toJson()),
+  );
+  if (response.statusCode == 200) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+Future<bool> deleteKnowYouRequest(
+    KnowYouRequest request, DateTime date, String token) async {
+  var uri = Uri.https(
+      baseUrl, '/documents/conocerte/${date.year}/${date.month}/${request.id}');
+  final response = await http.delete(
+    uri,
+    headers: <String, String>{
+      HttpHeaders.authorizationHeader: "Bearer " + token,
+    },
   );
   if (response.statusCode == 200) {
     return true;

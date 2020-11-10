@@ -4,7 +4,7 @@ class ViewMetadata {
   String name, key;
   int value;
   ViewType type;
-  final List<int> _types = [2, 2, 2, 1, 2, 0, 1, 2, 2, 2, 1, 2, 1];
+  final List<int> _types = [2, 2, 2, 1, 2, 0, 1, 1, 2, 2, 2, 2, 1, 2, 1];
   final List<String> _names = [
     "Contáctanos",
     "Donaciones",
@@ -13,9 +13,11 @@ class ViewMetadata {
     "Iglekids",
     "Inicio",
     "Inscripción a Ruta Académica",
+    "Queremos Conocerte",
     "Mujeres Determinantes",
     "Nuestra Historia",
     "Nuestra Visión",
+    "Nuestros Pastores",
     "PFI",
     "R21",
     "Videos"
@@ -28,9 +30,11 @@ class ViewMetadata {
     "iglekids",
     "home",
     "school",
+    "knowyou",
     "women",
     "history",
     "aboutUs",
+    "pastors",
     "pfi",
     "r21",
     "video"

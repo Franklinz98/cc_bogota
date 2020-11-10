@@ -1,6 +1,8 @@
 import 'package:cc_bogota/backend/requets.dart';
+import 'package:cc_bogota/components/know_tile.dart';
 import 'package:cc_bogota/components/school_tile.dart';
 import 'package:cc_bogota/constants/colors.dart';
+import 'package:cc_bogota/models/know_you_request.dart';
 import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +11,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class RequestList extends StatefulWidget {
+class KnowList extends StatefulWidget {
   @override
   _WidgetState createState() => _WidgetState();
 }
 
-class _WidgetState extends State<RequestList> {
+class _WidgetState extends State<KnowList> {
   DateTime _dateTime;
   CCState appState;
   Future<List> _documentFuture;
@@ -24,7 +26,7 @@ class _WidgetState extends State<RequestList> {
     super.initState();
     _dateTime = DateTime.now();
     appState = Provider.of<CCState>(context, listen: false);
-    _documentFuture = getDocuments('Escuela', _dateTime, appState.authToken);
+    _documentFuture = getDocuments('Conocerte', _dateTime, appState.authToken);
   }
 
   @override
@@ -69,7 +71,7 @@ class _WidgetState extends State<RequestList> {
                 setState(() {
                   _dateTime = date;
                   _documentFuture = getDocuments(
-                                  'Escuela', _dateTime, appState.authToken);
+                                  'Conocerte', _dateTime, appState.authToken);
                 });
               }, currentTime: _dateTime, locale: LocaleType.es);
             },
@@ -83,16 +85,16 @@ class _WidgetState extends State<RequestList> {
                     List data = snapshot.data;
                     return ListView.builder(
                       itemBuilder: (BuildContext context, int index) {
-                        SchoolRequest request = SchoolRequest.fromJson(
+                        KnowYouRequest request = KnowYouRequest.fromJson(
                             data[index]['key'], data[index]['data']);
-                        return SchoolTile(
+                        return KnowTile(
                           request: request,
                           appState: appState,
                           date: _dateTime,
                           refresh: () {
                             setState(() {
                               _documentFuture = getDocuments(
-                                  'Escuela', _dateTime, appState.authToken);
+                                  'Conocerte', _dateTime, appState.authToken);
                             });
                           },
                         );

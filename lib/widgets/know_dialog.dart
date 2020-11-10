@@ -1,15 +1,15 @@
 import 'package:cc_bogota/constants/colors.dart';
+import 'package:cc_bogota/models/know_you_request.dart';
 import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SchoolDialog extends StatelessWidget {
-  final SchoolRequest request;
+class KnowDialog extends StatelessWidget {
+  final KnowYouRequest request;
   final Function onComplete;
 
-  const SchoolDialog(
-      {Key key, @required this.request, @required this.onComplete})
+  const KnowDialog({Key key, @required this.request, @required this.onComplete})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class SchoolDialog extends StatelessWidget {
       backgroundColor: AppColors.black_russian,
       elevation: 0,
       title: Text(
-        'Datos de Inscripción'.toUpperCase(),
+        'Datos'.toUpperCase(),
         textAlign: TextAlign.center,
         style: GoogleFonts.roboto(
           fontWeight: FontWeight.w600,
@@ -40,6 +40,25 @@ class SchoolDialog extends StatelessWidget {
           ),
           Text(
             request.name,
+            style: GoogleFonts.roboto(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+              color: Color(0xff878787),
+            ),
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            'Edad:',
+            style: GoogleFonts.roboto(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            request.age,
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.w400,
               fontSize: 16,
@@ -85,12 +104,31 @@ class SchoolDialog extends StatelessWidget {
             ),
           ),
           SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            'Dirección:',
+            style: GoogleFonts.roboto(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            request.address,
+            style: GoogleFonts.roboto(
+              fontWeight: FontWeight.w400,
+              fontSize: 16,
+              color: Color(0xff878787),
+            ),
+          ),
+          SizedBox(
             height: 24.0,
           ),
           CCButton(
             height: 45,
             color: AppColors.maize,
-            child: Text("COMPLETAR REGISTRO"),
+            child: Text("ELIMINAR SOLICITUD"),
             onPressed: this.onComplete,
           ),
         ],

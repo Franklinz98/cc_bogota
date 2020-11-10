@@ -1,18 +1,20 @@
 import 'package:cc_bogota/constants/colors.dart';
+import 'package:cc_bogota/models/know_you_request.dart';
 import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
+import 'package:cc_bogota/widgets/know_dialog.dart';
 import 'package:cc_bogota/widgets/school_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cc_bogota/backend/requets.dart';
 
-class SchoolTile extends StatelessWidget {
-  final SchoolRequest request;
+class KnowTile extends StatelessWidget {
+  final KnowYouRequest request;
   final CCState appState;
   final DateTime date;
   final Function refresh;
 
-  const SchoolTile(
+  const KnowTile(
       {Key key,
       @required this.request,
       @required this.appState,
@@ -46,10 +48,10 @@ class SchoolTile extends StatelessWidget {
           onTap: () {
             showDialog(
               context: context,
-              builder: (context) => SchoolDialog(
+              builder: (context) => KnowDialog(
                 request: request,
                 onComplete: () {
-                  deleteSchoolRequest(request, date, appState.authToken)
+                  deleteKnowYouRequest(request, date, appState.authToken)
                       .then((value) {
                     Navigator.of(context).pop();
                     this.refresh.call();
