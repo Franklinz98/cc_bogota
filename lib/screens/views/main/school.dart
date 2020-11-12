@@ -1,11 +1,9 @@
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/school_request.dart';
-import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:cc_bogota/widgets/ccfield.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SchoolReg extends StatefulWidget {
   final Function onFinish;

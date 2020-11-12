@@ -222,10 +222,10 @@ class _MainState extends State<Main> {
           ),
         ),
         SizedBox(
-          height: 8.0,
+          height: 12.0,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -305,6 +305,9 @@ class _MainState extends State<Main> {
                 onTap: () =>
                     widget.appState.updateContentView(ContentViews.location),
               ),
+              SizedBox(
+                width: 52.0,
+              )
             ],
           ),
         ),

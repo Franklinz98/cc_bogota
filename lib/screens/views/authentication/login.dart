@@ -115,7 +115,11 @@ class _LoginState extends State<Login> {
                 onPressed: () {
                   if (formKey.currentState.validate()) {
                     signIn(email.text, password.text)
-                        .then((user) => Navigator.of(context).pop(user));
+                        .then((user) => Navigator.of(context).pop(user))
+                        .catchError((error) {
+                      Scaffold.of(context).showSnackBar(
+                          SnackBar(content: Text('Ocurrio un error. ${error.message}')));
+                    });
                   }
                 }),
           ),

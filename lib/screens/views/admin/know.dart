@@ -1,9 +1,7 @@
 import 'package:cc_bogota/backend/requets.dart';
 import 'package:cc_bogota/components/know_tile.dart';
-import 'package:cc_bogota/components/school_tile.dart';
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/know_you_request.dart';
-import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -70,8 +68,8 @@ class _WidgetState extends State<KnowList> {
                   maxTime: DateTime.now(), onConfirm: (date) {
                 setState(() {
                   _dateTime = date;
-                  _documentFuture = getDocuments(
-                                  'Conocerte', _dateTime, appState.authToken);
+                  _documentFuture =
+                      getDocuments('Conocerte', _dateTime, appState.authToken);
                 });
               }, currentTime: _dateTime, locale: LocaleType.es);
             },

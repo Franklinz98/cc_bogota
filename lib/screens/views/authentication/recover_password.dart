@@ -81,7 +81,11 @@ class _WidgetState extends State<RecoverP> {
                   child: Text("Recuperar Contraseña".toUpperCase()),
                   onPressed: () {
                     recover(email.text)
-                        .then((value) => widget.onScreenSwitch.call());
+                        .then((value) => widget.onScreenSwitch.call())
+                        .catchError((error) {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text('Ocurrio un error. ${error.message}')));
+                    });
                   }),
             ),
           ],

@@ -25,6 +25,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainRoute extends StatefulWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -105,6 +106,17 @@ class _RouteState extends State<MainRoute> {
             ccAppBar,
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff25d366),
+        child: Image.asset(
+          'assets/images/whatsapp_logo.png',
+          height: 26.0,
+        ),
+        onPressed: () async {
+          final url = "https://wa.me/57${_appState.redirect['whatsapp']}";
+          if (await canLaunch(url)) launch(url);
+        },
       ),
       drawer: CCDrawer(
         scaffoldKey: widget._scaffoldKey,

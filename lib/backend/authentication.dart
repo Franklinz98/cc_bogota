@@ -12,13 +12,20 @@ Future<CCUser> signIn(email, password) async {
   try {
     userCredential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
+    String token = await userCredential.user.getIdToken();
+    String uid = userCredential.user.uid;
+    print(token);
+    return CCUser(firebaseID: uid, sessionToken: token);
   } catch (error) {
-    return null;
+    switch (error.code) {
+      case "user-not-found":
+        throw Exception('Usuario no encontrado.');
+      case "wrong-password":
+        throw Exception('Contraseña equivocada.');
+      default:
+        throw Exception('Intentalo de nuevo');
+    }
   }
-  String token = await userCredential.user.getIdToken();
-  String uid = userCredential.user.uid;
-  print(token);
-  return CCUser(firebaseID: uid, sessionToken: token);
 }
 
 Future<bool> recover(email) async {
@@ -26,7 +33,12 @@ Future<bool> recover(email) async {
     await _auth.sendPasswordResetEmail(email: email);
     return true;
   } catch (error) {
-    return false;
+    switch (error.code) {
+      case "user-not-found":
+        throw Exception('Usuario no encontrado.');
+      default:
+        throw 'Intentalo de nuevo';
+    }
   }
 }
 

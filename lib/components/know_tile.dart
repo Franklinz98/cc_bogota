@@ -1,9 +1,7 @@
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/know_you_request.dart';
-import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/provider/cc_state.dart';
 import 'package:cc_bogota/widgets/know_dialog.dart';
-import 'package:cc_bogota/widgets/school_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cc_bogota/backend/requets.dart';

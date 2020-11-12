@@ -5,7 +5,6 @@ import 'package:cc_bogota/models/event.dart';
 import 'package:cc_bogota/models/know_you_request.dart';
 import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/models/viewData.dart';
-import 'package:cc_bogota/screens/views/main/know_you.dart';
 import 'package:http/http.dart' as http;
 
 String baseUrl = 'ccbapp-api.herokuapp.com';

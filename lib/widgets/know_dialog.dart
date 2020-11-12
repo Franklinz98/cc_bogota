@@ -1,6 +1,5 @@
 import 'package:cc_bogota/constants/colors.dart';
 import 'package:cc_bogota/models/know_you_request.dart';
-import 'package:cc_bogota/models/school_request.dart';
 import 'package:cc_bogota/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
